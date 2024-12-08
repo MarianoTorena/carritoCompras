@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header"
 import ProductCard from "./components/Product"
-function App() {
-    
-    //State
-    const [auth,setauth] = useState([])
+import { db } from "./data/db";
+
+function App() { 
+    const [products, setProducts] = useState(db);
+    const [cart, setCart] = useState([]);
+
+    function addToCart(product) {
+        const productExists = cart.findIndex(p => p.id === product.id);
+        if (productExists >= 0) {
+            const newCart = [...cart];
+            newCart[productExists].quantity++;
+            setCart(newCart);
+        } else {
+            setCart([...cart, {...product, quantity: 1}]);
+        }
+    }
 
     return (
         <>
@@ -12,9 +24,16 @@ function App() {
         
         <main className="container-xl mt-5">
             <h2 className="text-center">Nuestra Colección</h2>
-
+            
             <div className="row mt-5">
-                <ProductCard />
+                {products.map((product) => (
+                    <ProductCard 
+                        key={product.id}
+                        product={product}
+                        addToCart={addToCart}
+                    />
+                ))}
+                
             </div>
         </main>
 
