@@ -7,6 +7,13 @@ function App() {
     const [products, setProducts] = useState(db);
     const [cart, setCart] = useState([]);
 
+    const MAX_QUANTITY = 10;
+    const MIN_QUANTITY = 1;
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+    
     function addToCart(product) {
         const productExists = cart.findIndex(p => p.id === product.id);
         if (productExists >= 0) {
@@ -18,10 +25,48 @@ function App() {
         }
     }
 
+    function removeFromCart(idProduct) {
+        setCart(prevCart => prevCart.filter(product => product.id !== idProduct));
+    }
+
+    function increaseQuantity(idProduct) {
+        const updatedCart = cart.map(product => {
+            if (product.id === idProduct && product.quantity < MAX_QUANTITY) {
+                return {
+                    ...product,
+                    quantity: product.quantity + 1
+                }
+            }
+            return product;
+        });
+        setCart(updatedCart);
+    }
+
+    function decreaseQuantity(idProduct) {
+        const updatedCart = cart.map(product => {
+            if (product.id === idProduct && product.quantity > MIN_QUANTITY) {
+                return {
+                    ...product,
+                    quantity: product.quantity - 1
+                }
+            }
+            return product;
+        });
+        setCart(updatedCart);
+    }
+
+    function cleanCart(e) {
+        setCart([]);
+    }
+
     return (
         <>
         <Header 
             cart={cart}
+            removeFromCart={removeFromCart}
+            increaseQuantity={increaseQuantity}
+            decreaseQuantity={decreaseQuantity}
+            cleanCart={cleanCart}
         />
         
         <main className="container-xl mt-5">
