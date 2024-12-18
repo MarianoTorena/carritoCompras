@@ -4,8 +4,14 @@ import ProductCard from "./components/Product"
 import { db } from "./data/db";
 
 function App() { 
+
+    const initialCart = () =>{
+        const localDataCart = localStorage.getItem('cart');
+        return localDataCart ? JSON.parse(localDataCart) : [];
+    }
+
     const [products, setProducts] = useState(db);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(initialCart);
 
     const MAX_QUANTITY = 10;
     const MIN_QUANTITY = 1;
@@ -13,7 +19,7 @@ function App() {
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
-    
+
     function addToCart(product) {
         const productExists = cart.findIndex(p => p.id === product.id);
         if (productExists >= 0) {
@@ -55,7 +61,7 @@ function App() {
         setCart(updatedCart);
     }
 
-    function cleanCart(e) {
+    function clearCart(e) {
         setCart([]);
     }
 
@@ -66,7 +72,7 @@ function App() {
             removeFromCart={removeFromCart}
             increaseQuantity={increaseQuantity}
             decreaseQuantity={decreaseQuantity}
-            cleanCart={cleanCart}
+            cleanCart={clearCart}
         />
         
         <main className="container-xl mt-5">

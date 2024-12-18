@@ -3,10 +3,10 @@
 import { useMemo } from "react";
 
 // Funciones
-export default function Header ({cart, removeFromCart, increaseQuantity, decreaseQuantity, cleanCart}) {
+export default function Header ({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart}) {
     
     //State Derivado
-    const isEMpty = useMemo(() => cart.length === 0, [cart]); ; 
+    const isEMpty = useMemo(() => cart.length === 0, [cart]); 
     const total = useMemo(() => cart.reduce((acc, product) => acc + product.price * product.quantity, 0), [cart]);
 
     return(
@@ -16,14 +16,14 @@ export default function Header ({cart, removeFromCart, increaseQuantity, decreas
                 <div className="row justify-content-center justify-content-md-between">
                     <div className="col-8 col-md-3">
                         <a href="index.html">
-                            <img className="img-fluid" src="./public/img/logo.svg" alt="imagen logo" />
+                            <img className="img-fluid" src="/img/logo.svg" alt="imagen logo" />
                         </a>
                     </div>
                     <nav className="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
                         <div 
                             className="carrito"
                         >
-                            <img className="img-fluid" src="./public/img/carrito.png" alt="imagen carrito" />
+                            <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                             <div id="carrito" className="bg-white p-3">
                                 {isEMpty ? <p className="text-center">Carrito Vacío</p> : (
@@ -78,12 +78,13 @@ export default function Header ({cart, removeFromCart, increaseQuantity, decreas
                                             ))}
                                         </tbody>
                                     </table>
-                                    <p className="text-end">Total pagar: <span className="fw-bold">{total}</span></p>                    
+                                    <p className="text-end">Total pagar: <span className="fw-bold">
+                                        ${total}</span></p>                    
                                     </>
                                 )}
                                 <button 
                                 className="btn btn-dark w-100 mt-3 p-2" 
-                                onClick={cleanCart}>
+                                onClick={clearCart}>
                                     Vaciar Carrito
                                 </button>    
                                 
