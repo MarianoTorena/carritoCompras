@@ -1,13 +1,7 @@
 // Importar Librerias o Componentes
 
-import { useMemo } from "react";
-
 // Funciones
-export default function Header ({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart}) {
-    
-    //State Derivado
-    const isEMpty = useMemo(() => cart.length === 0, [cart]); 
-    const total = useMemo(() => cart.reduce((acc, product) => acc + product.price * product.quantity, 0), [cart]);
+export default function Header ({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart,isEmpty,total}) {
 
     return(
         // Html o Vistas
@@ -26,7 +20,7 @@ export default function Header ({cart, removeFromCart, increaseQuantity, decreas
                             <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                             <div id="carrito" className="bg-white p-3">
-                                {isEMpty ? <p className="text-center">Carrito Vacío</p> : (
+                                {isEmpty ? <p className="text-center">Carrito Vacío</p> : (
                                     <>
                                     <table className="w-100 table">
                                         <thead>
